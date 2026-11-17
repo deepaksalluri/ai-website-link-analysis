@@ -149,3 +149,6 @@ Groq was selected for hosted inference and schema-constrained output without a l
 ## Publishing
 
 This project intentionally follows the requested file structure and does not include a `.gitignore`. Before staging, configure local exclusions for `.env`, virtual environments, and caches, and review `git status` and `git diff --cached --name-only`. Local Git exclusions do not apply to other clones. If a key is exposed, revoke or rotate it and remove it from Git history before publishing.
+
+##
+--Salluri Deepak
