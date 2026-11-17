@@ -106,16 +106,16 @@ The JSON response contains a brand overview, the five analysis sections, and met
 
 
 ### Successful API request
-![Swagger request and successful response](screenshots\Screenshot%202026-11-18%20001042.png)
+![Swagger request and successful response](screenshots/Screenshot%202026-11-18%20001042.png)
 
 ### Analysis output 1
-![Website analysis response sections](screenshots\Screenshot%202026-11-18%20001100.png)
+![Website analysis response sections](screenshots/Screenshot%202026-11-18%20001100.png)
 
 ### Analysis output 2
-![Website analysis response sections](screenshots\Screenshot%202026-11-18%20001136.png)
+![Website analysis response sections](screenshots/Screenshot%202026-11-18%20001136.png)
 
 ### Terminal Response
-![Terminal results](screenshots\Screenshot%202026-11-18%20001225.png)
+![Terminal results](screenshots/Screenshot%202026-11-18%20001225.png)
 
 
 ## Running tests
