@@ -98,7 +98,7 @@ curl -X POST "http://localhost:4000/link-analysis" \
   -d '{"url":"https://www.python.org/"}'
 ```
 
-The JSON response contains a brand overview, the five analysis sections, and metadata describing the extraction and its limitations. Use Swagger UI to inspect the complete responses.
+The JSON response contains a brand overview, the five analysis sections, and metadata describing the extraction and its limitations. Use Swagger UI to inspect the complete response.
 
 **Common errors:** `400` for a rejected URL, `422` for an invalid request body, `502` for a website or LLM failure, and `503` for missing or invalid provider configuration. Error responses include a `detail` message.
 
