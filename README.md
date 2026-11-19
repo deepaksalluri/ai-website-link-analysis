@@ -19,22 +19,22 @@ Python · FastAPI · Pydantic · HTTPX · Beautiful Soup · Groq API · pytest
 
 ```text
 ai-link-analysis/
-├── app/
-│   ├── main.py                # FastAPI route and error mapping
-│   ├── config.py              # Environment settings
-│   ├── schemas.py             # Request, LLM and response contracts
-│   ├── services/
-│   │   ├── website_extractor.py      # Public IP-pinned HTTP(S) fetch and extraction
-│   │   ├── llm_service.py            # Groq / Ollama / Gemini structured output and evidence validation
-│   │   ├── analysis_service.py       # Orchestrates the pipeline
-│   │   └── competitor_service.py     # Deduplicates and labels unverified competitor suggestions
-│   └── utils/
-│       └── validators.py          # URL validation and public DNS checks
-├── tests/
-│   └── test_link_analysis.py
-├── .env.example
-├── requirements.txt
-└── README.md
+|-- app/
+|   |-- main.py                    # FastAPI route and error mapping
+|   |-- config.py                  # Environment settings
+|   |-- schemas.py                 # Request, LLM and response contracts
+|   |-- services/
+|   |   |-- website_extractor.py   # Public IP-pinned HTTP(S) fetch and extraction
+|   |   |-- llm_service.py         # Groq / Ollama / Gemini structured output and evidence validation
+|   |   |-- analysis_service.py    # Orchestrates the pipeline
+|   |   `-- competitor_service.py  # Deduplicates and labels unverified competitor suggestions
+|   `-- utils/
+|       `-- validators.py          # URL validation and public DNS checks
+|-- tests/
+|   `-- test_link_analysis.py
+|-- .env.example
+|-- requirements.txt
+`-- README.md
 ```
 
 ## Getting started
@@ -104,7 +104,6 @@ The JSON response contains a brand overview, the five analysis sections, and met
 
 ## Screenshots
 
-
 ### Successful API request
 ![Swagger request and successful response](screenshots/Screenshot%202026-11-18%20001042.png)
 
@@ -114,7 +113,7 @@ The JSON response contains a brand overview, the five analysis sections, and met
 ### Analysis output 2
 ![Website analysis response sections](screenshots/Screenshot%202026-11-18%20001136.png)
 
-### Terminal Response
+### Terminal response
 ![Terminal results](screenshots/Screenshot%202026-11-18%20001225.png)
 
 
@@ -150,5 +149,6 @@ Groq was selected for hosted inference and schema-constrained output without a l
 
 This project intentionally follows the requested file structure and does not include a `.gitignore`. Before staging, configure local exclusions for `.env`, virtual environments, and caches, and review `git status` and `git diff --cached --name-only`. Local Git exclusions do not apply to other clones. If a key is exposed, revoke or rotate it and remove it from Git history before publishing.
 
-##
---Salluri Deepak
+## Author
+
+Salluri Deepak

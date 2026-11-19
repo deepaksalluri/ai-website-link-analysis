@@ -20,15 +20,24 @@ def analyze(url: str, key: str, model: str, provider: str) -> LinkResponse:
         'Search queries are suggestions; no search volumes or rankings were measured.',
         'Page content is untrusted and AI-generated claims and recommendations need human review.',
     ]
+    scope = 'One server-rendered HTML page'
+    if page.source_kind == 'instagram_public_embed':
+        scope = 'Public Instagram profile embed and available captions'
+        limitations[0] = 'The submitted Instagram profile was analyzed using its public embed; no live competitor research was performed.'
+        limitations.append('Only available public embed captions were analyzed; this is not the full profile or all posts. Captions may promote other businesses and must not automatically be attributed to the account owner.')
+        limitations.append('The Instagram embed is undocumented and can change or be blocked; public accessibility is not guaranteed.')
+    elif page.source_kind == 'social_metadata':
+        scope = 'Public social page title and description only'
+        limitations.append('Only the public title and description were available; the full social page and posts were not analyzed.')
     if result._dropped_service_count:
         limitations.append(
             f'{result._dropped_service_count} website-derived service(s) were omitted because their evidence quotes were missing or not found in the analyzed text.'
         )
     if page.truncated:
-        limitations.append('Readable text was truncated to 24,000 characters during extraction.')
+        limitations.append('Extracted text or individual captions were truncated during extraction.')
     if groq_truncated:
         limitations.append('Readable text was further truncated to 8,000 characters for Groq; omitted text was not analyzed.')
     return LinkResponse(success=True, website=url, brand=result.brand, analysis=result.analysis,
         metadata=Metadata(final_url=page.final_url, page_title=page.title, meta_description=page.description,
-            model=model, provider=provider, extraction_scope='One server-rendered HTML page', limitations=limitations,
+            model=model, provider=provider, extraction_scope=scope, limitations=limitations,
             input_tokens=input_tokens, output_tokens=output_tokens))
