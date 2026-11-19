@@ -42,6 +42,66 @@ def _validation_feedback(exc: ValidationError) -> str:
         location = '.'.join(str(part) for part in error.get('loc', ())) or 'response'
         issues.append(f'{location}: {error.get("msg", "invalid value")}')
     return '\n'.join(issues)
+def _repair_platform_coverage(
+    page: ExtractedPage,
+    text: str,
+    exc: ValidationError,
+):
+    errors = exc.errors(include_input=False)
+
+    if len(errors) != 1:
+        raise exc
+
+    error = errors[0]
+
+    if (
+        error.get('loc') != ('analysis',)
+        or error.get('type') != 'value_error'
+        or str(error.get('ctx', {}).get('error', ''))
+        != 'All five platforms must be covered'
+    ):
+        raise exc
+
+    data = json.loads(text)
+    queries = data['analysis']['target_search_queries']
+
+    required_platforms = [
+        'Google Search',
+        'Facebook',
+        'Instagram',
+        'LinkedIn',
+        'X',
+    ]
+
+    covered = {
+        platform
+        for query in queries
+        for platform in query['platforms']
+    }
+
+    missing = [
+        platform
+        for platform in required_platforms
+        if platform not in covered
+    ]
+
+    if not missing:
+        raise exc
+
+    for platform in missing:
+        chosen_query = min(
+            queries,
+            key=lambda item: len(item['platforms']),
+        )
+        chosen_query['platforms'].append(platform)
+
+    repaired = _validate_result(
+        page,
+        json.dumps(data, ensure_ascii=False),
+    )
+    repaired._platforms_added = missing
+
+    return repaired
 
 
 def analyze_page(page: ExtractedPage, api_key: str, model: str, provider: str = 'gemini'):
@@ -163,7 +223,13 @@ def analyze_page(page: ExtractedPage, api_key: str, model: str, provider: str = 
                         break
                     except ValidationError as exc:
                         if attempt:
-                            raise
+                            parsed = _repair_platform_coverage(
+                                page,
+                                content,
+                                exc,
+                            )
+                            break
+
                         feedback = _validation_feedback(exc)
                         request['messages'] = messages + [{
                             'role': 'user',

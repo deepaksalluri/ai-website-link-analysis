@@ -104,6 +104,7 @@ class Analysis(StrictModel):
 
 class LLMResult(StrictModel):
     _dropped_service_count: int = PrivateAttr(default=0)
+    _platforms_added: list[str] = PrivateAttr(default_factory=list)
     brand: Brand
     analysis: Analysis
 

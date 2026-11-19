@@ -29,6 +29,13 @@ def analyze(url: str, key: str, model: str, provider: str) -> LinkResponse:
     elif page.source_kind == 'social_metadata':
         scope = 'Public social page title and description only'
         limitations.append('Only the public title and description were available; the full social page and posts were not analyzed.')
+    if result._platforms_added:
+        limitations.append(
+            'The application assigned missing platform labels ('
+            + ', '.join(result._platforms_added)
+            + ') to existing query suggestions after model retry; '
+              'review their relevance for each platform.'
+        )
     if result._dropped_service_count:
         limitations.append(
             f'{result._dropped_service_count} website-derived service(s) were omitted because their evidence quotes were missing or not found in the analyzed text.'
